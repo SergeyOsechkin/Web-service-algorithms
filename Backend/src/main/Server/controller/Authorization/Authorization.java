@@ -1,31 +1,29 @@
 package Server.controller.Authorization;
 
-import Server.controller.Authorization.Storage.DataAccess;
-import Server.controller.Authorization.Storage.IDataAccess;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import lombok.*;
+import Server.Requests.AuthorizationRequest;
+import Server.Requests.RegistrationRequest;
+import Server.Responses.AuthorizationResponse;
+import Server.Responses.RegistrationResponse;
+import Server.Storage.DataAccess;
+import Server.Storage.IDataAccess;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class Authorization  {
 
-    static class RequestAuthorize{
-        @Getter
-        @Setter
-        private String login;
-        @Getter
-        @Setter
-        private String password;
-    }
-
-    public IDataAccess data = new DataAccess();
+    private static final IDataAccess data = new DataAccess();
 
     @RequestMapping(value = "/Authorization", method = RequestMethod.POST,
                         headers = {"Content-type=application/json"})
-    public String Authorize(@RequestBody RequestAuthorize request) {
-        return request.login + request.password;
+    @ResponseBody
+    public AuthorizationResponse Authorize(@RequestBody AuthorizationRequest request) {
+        return (AuthorizationResponse) data.run(request);
     }
 
+    @RequestMapping(value = "/Registration", method = RequestMethod.POST,
+            headers = {"Content-type=application/json"})
+    @ResponseBody
+    public RegistrationResponse Registration(@RequestBody RegistrationRequest request) {
+        return (RegistrationResponse) data.run(request);
+    }
 }
