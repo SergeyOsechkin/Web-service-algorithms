@@ -10,9 +10,12 @@ public class AuthorizationResponse implements IResponse{
     @Getter
     @Setter
     public String answer;
-
-    public AuthorizationResponse(String ans)
+    @Getter
+    @Setter
+    public int privilege;
+    public AuthorizationResponse(String ans, int pr)
     {
         answer = ans;
+        privilege = pr;
     }
 }

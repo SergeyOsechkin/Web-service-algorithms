@@ -9,7 +9,7 @@ import Server.Storage.IDataAccess;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class Authorization  {
+public class Authorization {
 
     private static final IDataAccess data = new DataAccess();
 

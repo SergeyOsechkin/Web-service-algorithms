@@ -1,15 +1,8 @@
 package Server.Storage;
 
-import Server.Requests.AddAlgorithmRequest;
-import Server.Requests.AuthorizationRequest;
-import Server.Requests.IRequest;
-import Server.Requests.RegistrationRequest;
-import Server.Responses.AddAlgorithmResponse;
-import Server.Responses.AuthorizationResponse;
-import Server.Responses.IResponse;
-import Server.Responses.RegistrationResponse;
+import Server.Requests.*;
+import Server.Responses.*;
 
-import java.lang.reflect.Type;
 import java.sql.*;
 
 /**
@@ -34,6 +27,12 @@ public class DataAccess implements IDataAccess {
             return execute((AuthorizationRequest)request);
         else if (request instanceof AddAlgorithmRequest)
             return execute((AddAlgorithmRequest)request);
+        else if (request instanceof GetAlgorithmRequest)
+            return execute((GetAlgorithmRequest)request);
+        else if (request instanceof GetAlgorithmUserRequest)
+            return execute((GetAlgorithmUserRequest)request);
+        else if (request instanceof PayRequest)
+            return execute((PayRequest)request);
         else
             return null;
     }
@@ -65,10 +64,11 @@ public class DataAccess implements IDataAccess {
             if (!res.next())
                 temp = "Error";
             else
-                temp = res.getString("id");
-            response = new AuthorizationResponse(temp);
+                temp = res.getString("login");
+            response = new AuthorizationResponse(temp,res.getInt("privilege"));
         } catch (SQLException e) {
             e.printStackTrace();
+            response = new AuthorizationResponse("Error",0);
         }
         return response;
     }
@@ -77,9 +77,9 @@ public class DataAccess implements IDataAccess {
     {
         String query = String.format("INSERT INTO public.\"algorithm\"(" +
                         "\"owner\", \"namealg\", \"cost\"," +
-                        "\"description\", \"language\", \"sourceFile\", \"testFile\", \"status\")" +
-                        "VALUES('%s','%s',%d,'%s','%s','%s','%s', B'%d')",
-                r.owner,r.namealg,r.cost,r.description,r.language,r.sourceFile,r.testFile,0);
+                        "\"description\", \"language\", \"sourceFile\", \"testFile\")" +
+                        "VALUES('%s','%s',%d,'%s','%s','%s','%s')",
+                r.owner,r.namealg,r.cost,r.description,r.language,r.sourceFile,r.testFile);
         AddAlgorithmResponse response = null;
         try {
             response = new AddAlgorithmResponse("OK");
@@ -87,6 +87,66 @@ public class DataAccess implements IDataAccess {
         } catch (SQLException e) {
             e.printStackTrace();
             response = new AddAlgorithmResponse("Error");
+        }
+        return response;
+    }
+
+    private GetAlgorithmResponse execute (GetAlgorithmRequest r)
+    {
+        String query = String.format("select * from public.\"algorithm\"" +
+                                    "WHERE \"namealg\" like '%" + r.search + "%';");
+        GetAlgorithmResponse response = new GetAlgorithmResponse();
+        try {
+            ResultSet res = select(query);
+            while(res.next())
+            {
+                String own = res.getString("owner");
+                String namealg = res.getString("namealg");
+                String description = res.getString("description");
+                int cost = res.getInt("cost");
+                String language = res.getString("language");
+                response.Add(own,namealg,description,cost,language);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return response;
+    }
+
+    public GetAlgorithmUserResponse execute (GetAlgorithmUserRequest r)
+    {
+        String query = String.format("select * from public.\"algorithm\"" +
+                "WHERE \"owner\" = '%s'",r.login);
+        GetAlgorithmUserResponse response = new GetAlgorithmUserResponse();
+        try {
+            ResultSet res = select(query);
+            while(res.next())
+            {
+                String namealg = res.getString("namealg");
+                String description = res.getString("description");
+                int cost = res.getInt("cost");
+                String language = res.getString("language");
+                response.Add(namealg,description,cost,language);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return response;
+    }
+
+    public PayResponse execute (PayRequest r)
+    {
+        String query = String.format("UPDATE public.\"userspace\"" +
+                "SET money = %s" +
+                "WHERE \"login\" = '%s'",r.money,r.login);
+        PayResponse response = new PayResponse("Error");
+        try {
+            update(query);
+            response.answer = "OK";
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return response;
     }
