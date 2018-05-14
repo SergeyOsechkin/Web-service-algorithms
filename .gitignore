@@ -1,1 +1,2 @@
-*.xml
+/Backend/target
+/Backend/.idea
