@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class Payment {
 
-    private static final IDataAccess data = new DataAccess();
+    private final IDataAccess data = DataAccess.getInstance();
 
     @RequestMapping(value = "/Pay", method = RequestMethod.POST,
             headers = {"Content-type=application/json"})

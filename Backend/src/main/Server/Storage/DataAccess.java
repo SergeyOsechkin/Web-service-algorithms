@@ -9,15 +9,24 @@ import java.sql.*;
  * Created by osech on 17.04.2018.
  */
 public class DataAccess implements IDataAccess {
-    private static final String url = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String user = "postgres";
-    private static final String password = "123";
+    private final String url = "jdbc:postgresql://localhost:5432/postgres";
+    private final String user = "postgres";
+    private final String password = "123";
+
+    private static DataAccess instance;
 
     private Connection con;
     private Statement stmt;
 
-    public DataAccess()
+    private DataAccess()
     {}
+
+    public static DataAccess getInstance()
+    {
+        if (instance == null)
+            instance = new DataAccess();
+        return instance;
+    }
 
     public IResponse run(IRequest request)
     {

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AlgorithmControl {
 
-    private static final IDataAccess data = new DataAccess();
+    private final IDataAccess data = DataAccess.getInstance();
 
     @RequestMapping(value = "/AddAlgorithm", method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
