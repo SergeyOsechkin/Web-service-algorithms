@@ -11,12 +11,9 @@ import java.sql.*;
 public class DataAccess implements IDataAccess {
     private final String url = "jdbc:postgresql://localhost:5432/postgres";
     private final String user = "postgres";
-    private final String password = "123";
+    private final String password = "postgres";
 
     private static DataAccess instance;
-
-    private Connection con;
-    private Statement stmt;
 
     private DataAccess()
     {}
@@ -75,10 +72,13 @@ public class DataAccess implements IDataAccess {
             else
                 temp = res.getString("login");
             response = new AuthorizationResponse(temp,res.getInt("privilege"));
+            res.getStatement().close();
+            res.close();
         } catch (SQLException e) {
             e.printStackTrace();
             response = new AuthorizationResponse("Error",0);
         }
+
         return response;
     }
 
@@ -115,6 +115,8 @@ public class DataAccess implements IDataAccess {
                 int cost = res.getInt("cost");
                 String language = res.getString("language");
                 response.Add(own,namealg,description,cost,language);
+                res.getStatement().close();
+                res.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,6 +139,8 @@ public class DataAccess implements IDataAccess {
                 int cost = res.getInt("cost");
                 String language = res.getString("language");
                 response.Add(namealg,description,cost,language);
+                res.getStatement().close();
+                res.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -161,26 +165,20 @@ public class DataAccess implements IDataAccess {
     }
 
     private void update(String query) throws SQLException {
-        try {
-            con = DriverManager.getConnection(url, user, password);
-            stmt = con.createStatement();
+            Connection con = DriverManager.getConnection(url, user, password);
+            Statement stmt = con.createStatement();
             stmt.execute(query);
-        }
-        finally {
             con.close();
             stmt.close();
-        }
     }
 
     public ResultSet select(String query) throws SQLException
     {
-        try {
-            con = DriverManager.getConnection(url, user, password);
-            stmt = con.createStatement();
-            return stmt.executeQuery(query);
-        }
-        finally {
-            con.close();
-        }
+        Connection con = DriverManager.getConnection(url, user, password);
+        Statement stmt = con.createStatement();
+        stmt.executeQuery(query);
+        ResultSet res = stmt.getResultSet();
+        con.close();
+        return res;
     }
 }

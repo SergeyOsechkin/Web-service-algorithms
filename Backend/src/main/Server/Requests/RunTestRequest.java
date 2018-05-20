@@ -9,6 +9,9 @@ import lombok.Setter;
 public class RunTestRequest implements IRequest {
     @Setter
     @Getter
+    public String login;
+    @Setter
+    @Getter
     public String testfile;
     @Setter
     @Getter
