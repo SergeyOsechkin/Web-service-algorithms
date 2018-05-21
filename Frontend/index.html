@@ -3,24 +3,19 @@
 <script language="JavaScript">
 function login()
 {
-var login=document.Authorize.Name.value;
-var password=document.Authorize.Login.value;
-if ((login==trueName) && (password==truePassword))
-{
-    document.location.href='http://baxter.vic.edu.au';
-}
-else
-{
-    alert("Error! Try again");
-}
+var login=document.Authorize.Name.value
+var password=document.Authorize.Login.value
+var params = {"login":login,
+				"password":password}
+POST('http://localhost:9000/Authorization',params)
 }
 function POST(url,params) {
         // Form fields, see IDs above
         const http = new XMLHttpRequest()
         http.open('POST', url)
         http.setRequestHeader('Content-type', 'application/json')
-        http.send(params) // Make sure to stringify
-		return http.responseText
+        http.send(JSON.stringify(params)) // Make sure to stringify
+		alert(http.responseText)
     }
 </script>
  </head>
