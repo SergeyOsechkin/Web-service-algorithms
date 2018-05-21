@@ -3,19 +3,27 @@
 <script language="JavaScript">
 function login()
 {
-var login=document.Authorize.Name.value
-var password=document.Authorize.Login.value
+var login=document.Authorize.Name.value;
+var password=document.Authorize.Login.value;
 var params = {"login":login,
-				"password":password}
-POST('http://localhost:9000/Authorization',params)
+				"password":password};
+
+var resp = POST("http://localhost:9000/Authorization",params);
+if (resp != null){
+	localStorage.setItem("login",params["login"]);
+	    document.location.href='index.html';
+	}
 }
 function POST(url,params) {
         // Form fields, see IDs above
-        const http = new XMLHttpRequest()
-        http.open('POST', url)
-        http.setRequestHeader('Content-type', 'application/json')
-        http.send(JSON.stringify(params)) // Make sure to stringify
-		alert(http.responseText)
+        const http = new XMLHttpRequest();
+        http.open("POST", url,false);
+        http.setRequestHeader('Content-type', 'application/json');
+		http.send(JSON.stringify(params)); // Make sure to stringify
+		if(http.status == 200)
+			return http.responseText;
+		else
+			return null
     }
 </script>
  </head>
@@ -30,7 +38,7 @@ function POST(url,params) {
                       <br>Password</font></td>
               <td><input type="TEXT" name="Name" maxlength="15" size="20">
                       <br><input name="Login" maxlength="15" height="50" size="20"></td>
-              <td><input type="BUTTON" value=" Login " onclick="login()" height="40" width="50"></td>
+              <td><input type="BUTTON" value="Login" onclick="login()" height="40" width="50"></td>
         </tr>
 </table>
 </form> 

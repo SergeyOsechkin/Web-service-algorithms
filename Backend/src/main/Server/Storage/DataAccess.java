@@ -66,19 +66,17 @@ public class DataAccess implements IDataAccess {
         AuthorizationResponse response = null;
         try {
             ResultSet res = select(query);
-            String temp;
-            if (!res.next())
-                temp = "Error";
-            else
-                temp = res.getString("login");
-            response = new AuthorizationResponse(temp,res.getInt("privilege"));
+            if (res.next())
+                response = new
+                        AuthorizationResponse(
+                            res.getString("login"),
+                            res.getInt("privilege"));
             res.getStatement().close();
             res.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            response = new AuthorizationResponse("Error",0);
+            return null;
         }
-
         return response;
     }
 
@@ -177,8 +175,7 @@ public class DataAccess implements IDataAccess {
         Connection con = DriverManager.getConnection(url, user, password);
         Statement stmt = con.createStatement();
         stmt.executeQuery(query);
-        ResultSet res = stmt.getResultSet();
         con.close();
-        return res;
+        return stmt.getResultSet();
     }
 }
