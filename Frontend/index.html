@@ -14,7 +14,14 @@ else
     alert("Error! Try again");
 }
 }
-
+function POST(url,params) {
+        // Form fields, see IDs above
+        const http = new XMLHttpRequest()
+        http.open('POST', url)
+        http.setRequestHeader('Content-type', 'application/json')
+        http.send(params) // Make sure to stringify
+		return http.responseText
+    }
 </script>
  </head>
  
