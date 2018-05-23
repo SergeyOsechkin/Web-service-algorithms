@@ -4,5 +4,8 @@ import Server.Requests.IRequest;
 import Server.Responses.IResponse;
 
 public interface IDataAccess {
-    public IResponse run(IRequest request);
+    IResponse run(IRequest request);
+    static DataAccess getInstance() {
+        return null;
+    }
 }

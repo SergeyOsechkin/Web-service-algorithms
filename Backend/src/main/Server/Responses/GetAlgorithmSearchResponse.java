@@ -3,7 +3,7 @@ package Server.Responses;
 import lombok.Getter;
 import lombok.Setter;
 
-public class GetAlgorithmUserResponse implements IResponse {
+public class GetAlgorithmSearchResponse implements IResponse {
     class Algorithm {
         @Getter
         @Setter
@@ -42,7 +42,7 @@ public class GetAlgorithmUserResponse implements IResponse {
     @Setter
     Algorithm algorithm;
 
-    public GetAlgorithmUserResponse(String owner, String alg, String desc, int cost, String lang,String source,String test)
+    public GetAlgorithmSearchResponse(String owner, String alg, String desc, int cost, String lang,String source,String test)
     {
         algorithm = new Algorithm(owner,alg,desc,cost,lang,source,test);
     }

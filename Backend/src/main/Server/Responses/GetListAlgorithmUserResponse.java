@@ -3,19 +3,14 @@ package Server.Responses;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by osech on 12.05.2018.
  */
-public class GetAlgorithmResponse implements IResponse{
-
+public class GetListAlgorithmUserResponse implements IResponse{
     class Algorithm{
-        @Getter
-        @Setter
-        String owner;
         @Getter
         @Setter
         String namealg;
@@ -27,10 +22,9 @@ public class GetAlgorithmResponse implements IResponse{
         int cost;
         @Getter
         @Setter
-        String language;
+        String language; //Правильнее сделать через Enum
 
-        public Algorithm(String own, String alg, String desc, int c, String lang) {
-            owner = own;
+        public Algorithm(String alg, String desc, int c, String lang) {
             namealg = alg;
             description = desc;
             cost = c;
@@ -42,14 +36,14 @@ public class GetAlgorithmResponse implements IResponse{
     @Setter
     List<Algorithm> algorithms;
 
-    public GetAlgorithmResponse ()
+    public GetListAlgorithmUserResponse()
     {
         algorithms = new ArrayList();
     }
 
-    public void Add(String owner, String namealg, String description, int cost, String language)
+    public void Add(String namealg, String description, int cost, String language)
     {
-        algorithms.add(new Algorithm(owner,namealg,description,cost,language));
+        algorithms.add(new Algorithm(namealg,description,cost,language));
     }
 
 }

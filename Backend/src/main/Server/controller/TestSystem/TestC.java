@@ -17,13 +17,14 @@ public class TestC
     private static final String path  = new File("").getAbsolutePath() + "\\cppfiles\\";
 
     public static String RunTest(RunTestRequest request) {
+
         final String command = "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Professional\\Common7\\Tools\\VsDevCmd.bat\" & chcp 65001 & cd "
-                             + path + " & cl " + request.login + ".cpp -MD & "+request.testfile+".exe";
+                             + path + " & cl " + request.namealg + ".cpp -MD & "+request.testfile+".exe";
         Process p = null;
         StringBuilder temp = new StringBuilder("");
         String line = null;
         try {
-            FileOutputStream file=new FileOutputStream(path+request.login+".cpp");
+            FileOutputStream file=new FileOutputStream(path+request.namealg+".cpp");
             file.write((request.sourcefile + request.testfile).getBytes());
             p = Runtime.getRuntime().exec(command);
             //p.waitFor();

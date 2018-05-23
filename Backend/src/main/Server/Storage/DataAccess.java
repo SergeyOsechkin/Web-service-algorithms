@@ -33,10 +33,14 @@ public class DataAccess implements IDataAccess {
             return execute((AuthorizationRequest)request);
         else if (request instanceof AddAlgorithmRequest)
             return execute((AddAlgorithmRequest)request);
-        else if (request instanceof GetAlgorithmRequest)
-            return execute((GetAlgorithmRequest)request);
+        else if (request instanceof GetListAlgorithmSearchRequest)
+            return execute((GetListAlgorithmSearchRequest)request);
+        else if (request instanceof GetListAlgorithmUserRequest)
+            return execute((GetListAlgorithmUserRequest)request);
         else if (request instanceof GetAlgorithmUserRequest)
             return execute((GetAlgorithmUserRequest)request);
+        else if (request instanceof GetAlgorithmSearchRequest)
+            return execute((GetAlgorithmSearchRequest)request);
         else if (request instanceof PayRequest)
             return execute((PayRequest)request);
         else
@@ -87,22 +91,45 @@ public class DataAccess implements IDataAccess {
                         "\"description\", \"language\", \"sourceFile\", \"testFile\")" +
                         "VALUES('%s','%s',%d,'%s','%s','%s','%s')",
                 r.owner,r.namealg,r.cost,r.description,r.language,r.sourceFile,r.testFile);
-        AddAlgorithmResponse response = null;
+        AddAlgorithmResponse response = new AddAlgorithmResponse();
         try {
-            response = new AddAlgorithmResponse("OK");
             update(query);
         } catch (SQLException e) {
             e.printStackTrace();
-            response = new AddAlgorithmResponse("Error");
+            return null;
         }
         return response;
     }
 
-    private GetAlgorithmResponse execute (GetAlgorithmRequest r)
+    private BuyAlgorithmResponse execute (BuyAlgorithmRequest r)
+    {
+        BuyAlgorithmResponse response = new BuyAlgorithmResponse(r.money);
+        if (r.cost > r.money)
+            return null;
+        response.money = response.money - r.cost;
+        String query = String.format("INSERT INTO public.\"algorithm\"(" +
+                        "\"owner\", \"namealg\", \"cost\"," +
+                        "\"description\", \"language\", \"sourceFile\", \"testFile\")" +
+                        "VALUES('%s','%s',%d,'%s','%s','%s','%s')",
+                r.login,r.namealg,0,r.description,r.language,r.sourceFile,r.testFile);
+        String query2 = String.format("UPDATE public.\"userspace\"" +
+                                        "SET money = %d" +
+                                        "WHERE login = '#s'",response.money,r.login);
+        try {
+            update(query);
+            update(query2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return response;
+    }
+
+    private GetListAlgorithmSearchResponse execute (GetListAlgorithmSearchRequest r)
     {
         String query = String.format("select * from public.\"algorithm\"" +
-                                    "WHERE \"namealg\" like '%" + r.search + "%';");
-        GetAlgorithmResponse response = new GetAlgorithmResponse();
+                                    "WHERE \"namealg\" like '%" + r.search + "%' and \"owner\" != '" + r.login + "';");
+        GetListAlgorithmSearchResponse response = new GetListAlgorithmSearchResponse();
         try {
             ResultSet res = select(query);
             while(res.next())
@@ -113,9 +140,9 @@ public class DataAccess implements IDataAccess {
                 int cost = res.getInt("cost");
                 String language = res.getString("language");
                 response.Add(own,namealg,description,cost,language);
-                res.getStatement().close();
-                res.close();
             }
+            res.getStatement().close();
+            res.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -123,11 +150,67 @@ public class DataAccess implements IDataAccess {
         return response;
     }
 
-    public GetAlgorithmUserResponse execute (GetAlgorithmUserRequest r)
+    private GetAlgorithmSearchResponse execute (GetAlgorithmSearchRequest r)
+    {
+        String query = String.format("select * from public.\"algorithm\"" +
+                "WHERE \"namealg\" == '" + r.namealg + "'and \"owner\" == '" + r.owner + "';");
+        GetAlgorithmSearchResponse response = null;
+        try {
+            ResultSet res = select(query);
+            res.next();
+            String own = res.getString("owner");
+            String namealg = res.getString("namealg");
+            String description = res.getString("description");
+            int cost = res.getInt("cost");
+            String language = res.getString("language");
+            String source = res.getString("sourcefile");
+            if (cost != 0)
+                source = "";
+            String test = res.getString("testfile");
+            response = new GetAlgorithmSearchResponse(
+                    own,namealg,description,cost,language,source,test
+            );
+            res.getStatement().close();
+            res.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return response;
+    }
+
+    private GetAlgorithmUserResponse execute (GetAlgorithmUserRequest r)
+    {
+        String query = String.format("select * from public.\"algorithm\"" +
+                "WHERE \"namealg\" == '" + r.namealg + "' and \"owner\" == '"+r.login+"';");
+        GetAlgorithmUserResponse response = null;
+        try {
+            ResultSet res = select(query);
+            res.next();
+            String own = res.getString("owner");
+            String namealg = res.getString("namealg");
+            String description = res.getString("description");
+            int cost = res.getInt("cost");
+            String language = res.getString("language");
+            String source = res.getString("sourcefile");
+            String test = res.getString("testfile");
+            response = new GetAlgorithmUserResponse(
+                    own,namealg,description,cost,language,source,test
+            );
+            res.getStatement().close();
+            res.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return response;
+    }
+
+    public GetListAlgorithmUserResponse execute (GetListAlgorithmUserRequest r)
     {
         String query = String.format("select * from public.\"algorithm\"" +
                 "WHERE \"owner\" = '%s'",r.login);
-        GetAlgorithmUserResponse response = new GetAlgorithmUserResponse();
+        GetListAlgorithmUserResponse response = new GetListAlgorithmUserResponse();
         try {
             ResultSet res = select(query);
             while(res.next())
@@ -137,9 +220,9 @@ public class DataAccess implements IDataAccess {
                 int cost = res.getInt("cost");
                 String language = res.getString("language");
                 response.Add(namealg,description,cost,language);
-                res.getStatement().close();
-                res.close();
             }
+            res.getStatement().close();
+            res.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -162,7 +245,7 @@ public class DataAccess implements IDataAccess {
         return response;
     }
 
-    private void update(String query) throws SQLException {
+    public void update(String query) throws SQLException {
             Connection con = DriverManager.getConnection(url, user, password);
             Statement stmt = con.createStatement();
             stmt.execute(query);
