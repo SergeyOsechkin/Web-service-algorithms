@@ -30,7 +30,10 @@ public class Authorization {
     @RequestMapping(value = "/Registration", method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
     @ResponseBody
-    public RegistrationResponse Registration(@RequestBody RegistrationRequest request) {
-        return (RegistrationResponse) data.run(request);
+    public RegistrationResponse Registration(@RequestBody RegistrationRequest request, HttpServletResponse res) {
+        IResponse obj = data.run(request);
+        if (obj == null)
+            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        return (RegistrationResponse) obj;
     }
 }

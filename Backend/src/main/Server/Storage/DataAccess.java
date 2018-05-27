@@ -53,14 +53,13 @@ public class DataAccess implements IDataAccess {
                 "\"middlename\", \"login\", \"password\")" +
                 "VALUES('%s','%s','%s','%s','%s')",
                     r.firstname,r.secondname,r.middlename,r.login,r.password);
-        RegistrationResponse response = new RegistrationResponse("OK");
         try {
             update(query);
         } catch (SQLException e) {
             e.printStackTrace();
-            response.answer = "Error";
+            return null;
         }
-        return response;
+        return new RegistrationResponse("OK");
     }
 
     private AuthorizationResponse execute (AuthorizationRequest r) {
@@ -88,10 +87,10 @@ public class DataAccess implements IDataAccess {
     {
         String query = String.format("INSERT INTO public.\"algorithm\"(" +
                         "\"owner\", \"namealg\", \"cost\"," +
-                        "\"description\", \"language\", \"sourceFile\", \"testFile\")" +
+                        "\"description\", \"language\", \"sourcefile\", \"testfile\")" +
                         "VALUES('%s','%s',%d,'%s','%s','%s','%s')",
-                r.owner,r.namealg,r.cost,r.description,r.language,r.sourceFile,r.testFile);
-        AddAlgorithmResponse response = new AddAlgorithmResponse();
+                r.owner,r.namealg,r.cost,r.description,r.language,r.sourcefile,r.testfile);
+        AddAlgorithmResponse response = new AddAlgorithmResponse("OK");
         try {
             update(query);
         } catch (SQLException e) {
@@ -153,7 +152,7 @@ public class DataAccess implements IDataAccess {
     private GetAlgorithmSearchResponse execute (GetAlgorithmSearchRequest r)
     {
         String query = String.format("select * from public.\"algorithm\"" +
-                "WHERE \"namealg\" == '" + r.namealg + "'and \"owner\" == '" + r.owner + "';");
+                "WHERE \"namealg\" = '" + r.namealg + "'and \"owner\" = '" + r.owner + "';");
         GetAlgorithmSearchResponse response = null;
         try {
             ResultSet res = select(query);
@@ -182,20 +181,18 @@ public class DataAccess implements IDataAccess {
     private GetAlgorithmUserResponse execute (GetAlgorithmUserRequest r)
     {
         String query = String.format("select * from public.\"algorithm\"" +
-                "WHERE \"namealg\" == '" + r.namealg + "' and \"owner\" == '"+r.login+"';");
+                "WHERE namealg = '" + r.namealg + "' and owner = '"+r.login+"';");
         GetAlgorithmUserResponse response = null;
         try {
             ResultSet res = select(query);
             res.next();
-            String own = res.getString("owner");
-            String namealg = res.getString("namealg");
             String description = res.getString("description");
             int cost = res.getInt("cost");
             String language = res.getString("language");
             String source = res.getString("sourcefile");
             String test = res.getString("testfile");
             response = new GetAlgorithmUserResponse(
-                    own,namealg,description,cost,language,source,test
+                   description,cost,language,source,test
             );
             res.getStatement().close();
             res.close();
@@ -209,7 +206,7 @@ public class DataAccess implements IDataAccess {
     public GetListAlgorithmUserResponse execute (GetListAlgorithmUserRequest r)
     {
         String query = String.format("select * from public.\"algorithm\"" +
-                "WHERE \"owner\" = '%s'",r.login);
+                "WHERE \"owner\" = '%s'", r.login);
         GetListAlgorithmUserResponse response = new GetListAlgorithmUserResponse();
         try {
             ResultSet res = select(query);

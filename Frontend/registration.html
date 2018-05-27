@@ -1,0 +1,42 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=11" />
+<title>Web service algorithms</title>
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="main.js"></script>
+</head>
+<body> 
+<div class="content">
+	<div class="my-tittle">Web service algorithms</div>	
+	<form class="add-form" action="#" method="post" name="Authorize">
+		<ul>
+			<li>
+				<label for="name">Login:</label>
+				<input type="text" placeholder="login" name="Name" id="logFirst" onkeyup="checkLoginFirst()">			
+			</li>
+			<li>
+				<label for="name">First Name:</label>
+				<input type="text" placeholder="first tname" id="FirstName"onkeyup="checkLoginFirst()"><br>
+			</li>
+			<li>
+				<label for="name">Last Name:</label>
+				<input type="text" placeholder="last name" id="LastName"  onkeyup="checkLoginFirst()"><br>
+			</li>
+			<li>
+				<label for="name">Middle Name:</label>
+				<input type="text" placeholder="middle name" id="MiddleName" onkeyup="checkLoginFirst()"><br>
+			</li>
+			<li>
+				<label for="name">Password:</label>
+				<input type="password" placeholder="password" id="pasFirst" onkeyup="checkLoginFirst()" id="pas"><br>
+			</li>
+			<li>
+				<input type="button" value="Login" onclick="authorization()" class="reg disabled">
+			</li>
+		</ul>
+	</form>
+</div>
+ </body>
+</html>

@@ -1,0 +1,104 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=11" />
+<title>Web service algorithms</title>
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="main.js"></script>
+</head>
+<body> 
+<div class="fon"></div>
+<div class="grad"></div>
+<div class="head-top text-font">
+    <div class="left-col">
+        Web service algorithms
+    </div>
+    <div class="right-col">
+        <ul class="menu">
+            <li><p class="fon-color"><a href="hi.html">Profile</a></p></li>
+            <li><p class="hover-color"><a href="index.html">Exit</a></p></li>
+        </ul>
+    </div>
+</div>
+<div class="content">
+	<div class="add-algoritm">
+		<div class="my-tittle">Add Algoritm </div>	
+		<form class="add-form" action="#" method="post" name="contact_form" id="add-form-id">
+		<ul>
+        <li>
+             <span class="required_notification">* Denotes Required Field</span>
+        </li>
+        <li>
+            <label for="name">Name*:</label>
+            <input type="text" id="nameAlg" onkeyup="checkParams()" placeholder="Finding the maximum element" required="" value="main">
+        </li>
+        <li>
+            <label for="language">Language*:</label>
+            <input type="text" id="languageAlg" name="language" value="C++" disabled>
+        </li>
+        <li>
+            <label for="message">Description*:</label>
+            <textarea name="message" id="descriptionAlg" onkeyup="checkParams()" cols="40" rows="3" required="" >Description</textarea>
+        </li>
+		<li>
+		<label class="add-access" for="access">Access*:</label>
+			<input type="radio" id="free"  name="field">Free
+			<input type="radio" id="pay" name="field">Pay
+			<input type="number" placeholder="price,$" onkeyup="checkParams()" id="priceAjg" name="priceAlg" class="add-pay" required="">
+			
+		</li>
+		<li>
+		<label id="add-code" for="applyCode">Apply Code*:</label>
+            <textarea name="message" id="codeAlg" onkeyup="checkParams()" cols="20" rows="3" required="">
+
+		</textarea>
+        
+		</li>
+		<li>
+		<label id="add-test" for="applyTest">Apply Test*:</label>
+            <textarea name="message" id="testAlg" onkeyup="checkParams()" cols="120" rows="10" required="">
+TEST(SquareRootTest, ZeroAndNegativeNos) {
+	ASSERT_EQ(0.0, 0);
+}
+
+TEST(SquareRoot, ZeroAndNegativeNos) {
+	ASSERT_EQ(1, 1);
+}
+		</textarea>
+        
+		</li>
+		<input type="button" class="submit" value="Test" onclick="send()">
+		<input type="button" id="back" value="Back">
+		<input type="button" id="add" value="Add" onclick="AddAlgorithm()">
+    </ul>
+	</form>
+	<div class="title">ANSWER</div>
+	<div id="answer"></div>
+	</div>
+	</div>
+</div>
+<script>
+$('#pay').click(function(){
+	checkParams();
+	if($("#pay").prop("checked")){ 
+		$('.add-pay').css({'display': 'inline-block', 'margin-left': '10px'});
+	} 
+});
+$('#free').click(function(){	
+	checkParams();
+	if($("#free").prop("checked")){
+		$('.add-pay').css('display', 'none');
+	}
+});
+$('#back').click(function(){	
+	$('#add').css('display', 'none');
+	$('#nameAlg').addClass('disabled');
+	$('#descriptionAlg').removeClass('disabled');
+	$('#priceAjg').removeClass('disabled');
+	$('#testAlg').removeClass('disabled');
+	$('#codeAlg').removeClass('disabled');
+});
+</script>
+</body>
+</html>

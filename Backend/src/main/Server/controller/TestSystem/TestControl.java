@@ -15,8 +15,6 @@ public class TestControl{
             headers = {"Content-type=application/json"})
     @ResponseBody
     public RunTestResponse RunTest(@RequestBody RunTestRequest request) {
-        if (request.language == "C++")
-            return new RunTestResponse(TestC.RunTest(request));
-        return null;
+        return TestC.RunTest(request);
     }
 }

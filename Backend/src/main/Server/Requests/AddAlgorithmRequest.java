@@ -24,8 +24,8 @@ public class AddAlgorithmRequest implements IRequest {
     public String language;
     @Getter
     @Setter
-    public String sourceFile;
+    public String sourcefile;
     @Getter
     @Setter
-    public String testFile;
+    public String testfile;
 }

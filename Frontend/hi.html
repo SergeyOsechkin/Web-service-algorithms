@@ -1,0 +1,74 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=11" />
+<title>Web service algorithms</title>
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="main.js"></script>
+</head> 
+<body> 
+<div class="head-top text-font">
+    <div class="left-col">
+        Web service algorithms
+    </div>
+    <div class="right-col">
+        <ul class="menu">
+            <li><p class="fon-color"><a href="add.html">Add Algoritm</a></p></li>
+            <li><p class="hover-color"><a href="index.html">Exit</a></p></li>
+        </ul>
+    </div>
+</div>
+<div class="content">
+	<div class="my-algoritm">
+		<div class="my-tittle">My Algoritm </div>
+		<div class="my-algoritm-content">		
+			<div class="my-algoritm-content-left">
+				<div class="my-algoritm-content-left-title title">List</div>
+				<div id="listAlgoritm"class="my-algoritm-content-left-content conten-block"></div>
+			</div>
+			<div class="my-algoritm-content-right"> 
+				<div class="my-algoritm-content-right-title title">Information</div>
+				<div id="informationAlgoritm" class="my-algoritm-content-right-content conten-block"></div>					
+				<ul id="informationAlgoritm1">
+					<li>
+						<label class="title-label" for="name">Cost:</label>
+						<textarea type="text" id="costAlg" disabled></textarea>
+					</li>
+					<li>
+						<label class="title-label" for="language">Language:</label>
+						<textarea type="text" id="langAlg" disabled></textarea>
+					</li>
+					<li>
+						<label  class="title-label" for="message">Description:</label>
+						<textarea id="descrAlg"cols="40" rows="3" disabled></textarea>
+					</li>
+					<li>
+						<label  class="title-label" for="message">Code:</label>
+						<textarea id="codeAlg"cols="40" rows="3" disabled></textarea>
+					</li>
+					<li>
+						<label  class="title-label" for="message">Test:</label>
+						<textarea id="testAlg"cols="40" rows="3" disabled></textarea>
+					</li>					
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<script>
+var params = {
+  "login":localStorage.getItem("login")
+  };
+var resp = POST("http://localhost:9000/GetListAlgorithmUser",params);
+var nameAlgoritm;
+if (resp != null){
+ for(var i=0; i<resp.algorithms.length;i++){
+  nameAlgoritm = resp.algorithms[i].namealg; 
+   $('#listAlgoritm').after('<input value="'+nameAlgoritm+'" type="button" id="'+nameAlgoritm+'" onclick ="myfunc(this.id)"/>');
+ }
+}	
+</script>
+</body>
+</html>
