@@ -1,30 +1,3 @@
-/*.fon{
-	position: absolute;
-	top: -20px;
-	left: -20px;
-	right: -40px;
-	bottom: -40px;
-	width: auto;
-	height: auto;
-	background-image: url(http://avenues.ca/wp-content/uploads/2017/05/matrice-logiciel-1.jpg);
-	background-size: cover;
-	-webkit-filter: blur(5px);
-	z-index: 0;
-}
-
-.grad{
-	position: absolute;
-	top: -20px;
-	left: -20px;
-	right: -40px;
-	bottom: -40px;
-	width: auto;
-	height: auto;
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65)));
-	z-index: 0;
-	opacity: 0.7;
-}*/
-/****************************************************************************************/
 body {margin: 0;color:black;}
 .text-font{font-family:Ubuntu;}
 
@@ -44,21 +17,8 @@ body {margin: 0;color:black;}
 
 .menu li:first-child{background:#27b8d1;}
 .menu li:hover{background:#27b8d1;text-decoration:none;}
-.sub{position: absolute;left: -25px;z-index: 101;width:130px;margin-top:3px;padding: 0;background: #27b8d1;display: none;}
-.sub-menu{color:white;text-decoration: none;}
-.sub-menu a:hover{color:#AABDE6;}
-
 .menu > li:hover .sub {display: block;}
-.sub-menu a{line-height:1;}
-
-.sub li{padding: 15px 34px;}
-
 .menu li ul{position:absolute;}
-
-.menu-adapt{display:none;}
-.menu-adapt li a {width: 150px;height: 33px;color: black;text-decoration: none;vertical-align: middle;}
-.menu-adapt li:hover ul{display: block;}
-.menu-adapt li:hover{background:#27b8d1;}
 
 .content{padding:50px;position: absolute;width: 100%;}
 .title{font-size:35px;}
@@ -68,52 +28,12 @@ body {margin: 0;color:black;}
 .my-algoritm-content-left{width: 50%;height:50%;float:left;}
 .my-algoritm-content-right{width: 50%;height:50%;float:right;}
 
-
-.col-3{width:25%;float: left;padding-top:100px;padding-bottom: 50px;}
-.circle-txt-3{color:white;font-size:50px;text-align: center;padding-top:25px;}
-.circle-3{border:#27b8d1 2px solid;background:#27b8d1;width:110px;height:110px;border-radius:70px;}
-.circle-adv-3{color:grey;font-size: 12px;text-align:left;padding-top:30px;}
-.contacts-container{margin: 0 auto;text-align: center;}
-.caption-contacts{color:black;font-size: 50px;text-align: center;font-weight:bold;}
-
-.circle-3{-moz-transition: all 0.8s ease-in-out; -webkit-transition: all 0.8s ease-in-out; -o-transition: all 0.8s ease-in-out; -ms-transition: all 0.8s ease-in-out; transition: all 2s ease-in-out; }
-.circle-3:hover{-moz-transform: rotate(360deg); -webkit-transform: rotate(180deg); -o-transform: rotate(360deg); -ms-transform: rotate(360deg); transform: rotate(360deg);}
-
-.footer-icon-holder{display: inline-block;}
-.footer-icon{clear: both;}
-.asd{float:left;margin-left: 25px;-webkit-transition: all 1s ease-out;}
-
-.asd:hover{color:#27b8d1;-webkit-transform: scale(1.6);}
-.asd:before {content:attr(data-description);display:block;background:rgba(0,0,0,.9);color:white;padding: 0 23px 20px 4px;position:absolute;left:0;top:-20px;margin-left:-10px;
-    height:0;line-height:21px;opacity:0;width: 15px;}
-
-.asd-1:before{width: 8px;}
-
-.asd:after {content:'';display:block;position:absolute;height:0;width:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:4px solid rgba(0,0,0,.9);opacity:0;}
-
-.asd:hover:before {opacity:1;font-size:8px;}
-.asd:hover:after { opacity:1; top:-1px;}
-.footer-txt{font-size:9px;color:grey;padding-top:30px;padding-bottom:60px;}
-.g-holder{margin-left:0px;}
-.footer-a,.footer-privacy{text-decoration:none;color:grey;}
-.footer-privacy:hover{color:#27b8d1;}
-
-.menu-adapt{display:none;}
-
 .content-container{overflow:hidden;padding-top:20px;margin:0 auto;}
 
-.add-pay{display:none;}
-
-/******************************************ADD************************************************/
-/* === Remove input autofocus webkit === */
 *:focus {outline: none;}
-
-/* === Form Typography === */
 body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", sans-serif;}
 .add-form h2, .add-form label {font-family:Georgia, Times, "Times New Roman", serif;}
 .form_hint, .required_notification {font-size: 11px;}
-
-/* === List Styles === */
 .add-form ul {
     width:750px;
     list-style-type:none;
@@ -126,7 +46,7 @@ body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", san
 	border-bottom:1px solid #eee;
 	position:relative;
 } 
-/* === Form Header === */
+
 .add-form h2 {
 	margin:0;
 	display: inline;
@@ -137,7 +57,6 @@ body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", san
 	float:right;
 }
 
-/* === Form Elements === */
 .add-form label {
 	width:150px;
 	margin-top: 3px;
@@ -153,23 +72,22 @@ body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", san
 .add-form textarea {padding:8px; width:300px;}
 .add-form button {margin-left:156px;}
 
-	/* form element visual styles */
-	.add-form input[type="text"], .add-form textarea, .add-form input[type="password"], .add-form input[type="number"] { 
-		border:1px solid #aaa;
-		box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
-		border-radius:2px;
-		padding-right:30px;
-		-moz-transition: padding .25s; 
-		-webkit-transition: padding .25s; 
-		-o-transition: padding .25s;
-		transition: padding .25s;
-	}
-	.add-form input:focus, .add-form textarea:focus {
-		border:1px solid #555; 
-		box-shadow: 0 0 3px #aaa; 
-	}
+.add-form input[type="text"], .add-form textarea, .add-form input[type="password"], .add-form input[type="number"] { 
+	border:1px solid #aaa;
+	box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
+	border-radius:2px;
+	padding-right:30px;
+	-moz-transition: padding .25s; 
+	-webkit-transition: padding .25s; 
+	-o-transition: padding .25s;
+	transition: padding .25s;
+}
+.add-form input:focus, .add-form textarea:focus {
+	border:1px solid #555; 
+	box-shadow: 0 0 3px #aaa; 
+}
 
-/* === HTML5 validation styles === */	
+
 .add-form input:required, .add-form textarea:required {
 	background: #fff url(red_asterisk.png) no-repeat 98% center;
 }
@@ -183,15 +101,15 @@ body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", san
 	border-color: #b03535
 }
 
-/* === Form hints === */
+
 .form_hint {
 	background: #d45252;
 	border-radius: 3px 3px 3px 3px;
 	color: white;
 	margin-left:8px;
 	padding: 1px 6px;
-	z-index: 999; /* hints stay above all other elements */
-	position: absolute; /* allows proper formatting if hint is two lines */
+	z-index: 999; 
+	position: absolute; 
 	display: none;
 }
 .form_hint::before {
@@ -204,8 +122,7 @@ body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", san
 .add-form input:focus + .form_hint {display: inline;}
 .add-form input:required:valid + .form_hint {background: #28921f;}
 .add-form input:required:valid + .form_hint::before {color:#28921f;}
-	
-/* === Button Style === */
+
 button.submit {
 	background-color: #68b12f;
 	background: -webkit-gradient(linear, left top, left bottom, from(#68b12f), to(#50911e));
@@ -233,7 +150,7 @@ button.submit {
 	text-shadow: 0 -1px 0 #396715;
 	margin-top: 15px;
 }
-/***************************ADD*********************************/
+
 input[name=field] + label{
   display: inline-block;
   vertical-align: top;
@@ -272,4 +189,3 @@ input.submit {
 .submit,.clear, #add, #back{display:none;}
 .disabled {background-color: lightgrey;opacity: 0.6;pointer-events: none;}
 .title-label{display:block;}
-

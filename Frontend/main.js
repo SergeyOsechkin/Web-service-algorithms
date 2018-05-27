@@ -181,12 +181,3 @@ function myfunc(namealg) {
 	$('#codeAlg').val(source);
 	$('#testAlg').val(test);
 }
-
-
-
-
-
-
-
-
-
