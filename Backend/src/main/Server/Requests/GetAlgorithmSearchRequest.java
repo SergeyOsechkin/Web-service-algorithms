@@ -7,7 +7,4 @@ public class GetAlgorithmSearchRequest implements IRequest {
     @Setter
     @Getter
     public String namealg;
-    @Setter
-    @Getter
-    public String owner;
 }

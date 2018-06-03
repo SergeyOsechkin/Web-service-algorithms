@@ -5,7 +5,7 @@ body {margin: 0;color:black;}
 
 .container{padding-top: 40px;margin: 0 auto;}
 .left-col{float:left;color:white;font-size:30px;font-weight:bold;position:relative;text-transform: uppercase;margin-left:50px;margin-top:14px;}
-.right-col{float:right;position:relative;width:50%;}
+.right-col{float:right;position:relative;width:30%;}
 
 .menu{position: relative;font-size:20px;margin: 0;}
 .menu li {padding:5px 15px;list-style: none;float: left;position: relative;height: 37px;line-height: 0;margin: 0 1px;}
@@ -15,10 +15,39 @@ body {margin: 0;color:black;}
 .menu a:hover{text-decoration:underline;}
 .menu ul{font-size: 25px;}
 
-.menu li:first-child{background:#27b8d1;}
-.menu li:hover{background:#27b8d1;text-decoration:none;}
+.menu li:first-child{background:#27b8d1; border-radius: 10px;box-shadow: inset 0px 0px 5px 5px antiquewhite;}
+.menu li:hover{background:#27b8d1;text-decoration:none;border-radius: 10px;box-shadow: inset 0px 0px 5px 5px antiquewhite;}
 .menu > li:hover .sub {display: block;}
 .menu li ul{position:absolute;}
+
+input{
+	border: 1px solid lemonchiffon;
+	border-radius: 5px;
+}
+input[value = Login]{
+	background:#27b8d1;
+	height: 40px;
+	width: 80px;
+	box-shadow: inset 0px 0px 5px 3px antiquewhite;
+}
+input[value = Buy]{
+	background:#27b8d1;
+	height: 40px;
+	width: 80px;
+	box-shadow: inset 0px 0px 5px 3px antiquewhite;
+}
+input[value = search]{
+	background:#27b8d1;
+	height: 40px;
+	width: 80px;
+	box-shadow: inset 0px 0px 5px 3px antiquewhite;
+}
+input[value = Registration]{
+	background-color: #5cd053;
+	height: 40px;
+	width: 90px;
+	box-shadow: inset 0px 0px 5px 3px antiquewhite;
+}
 
 .content{padding:50px;position: absolute;width: 100%;}
 .title{font-size:35px;}
@@ -35,24 +64,24 @@ body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", san
 .add-form h2, .add-form label {font-family:Georgia, Times, "Times New Roman", serif;}
 .form_hint, .required_notification {font-size: 11px;}
 .add-form ul {
-    width:750px;
-    list-style-type:none;
+	width:750px;
+	list-style-type:none;
 	list-style-position:outside;
 	margin:0px;
 	padding:0px;
 }
 .add-form li{
-	padding:12px; 
+	padding:12px;
 	border-bottom:1px solid #eee;
 	position:relative;
-} 
+}
 
 .add-form h2 {
 	margin:0;
 	display: inline;
 }
-.required_notification { 
-	margin:20px 0 0 0; 
+.required_notification {
+	margin:20px 0 0 0;
 	display:inline;
 	float:right;
 }
@@ -65,26 +94,26 @@ body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", san
 	padding:3px;
 }
 .add-form input[type="text"] {
-	height:20px; 
-	width:220px; 
+	height:20px;
+	width:220px;
 	padding:5px 8px;
 }
 .add-form textarea {padding:8px; width:300px;}
 .add-form button {margin-left:156px;}
 
-.add-form input[type="text"], .add-form textarea, .add-form input[type="password"], .add-form input[type="number"] { 
+.add-form input[type="text"], .add-form textarea, .add-form input[type="password"], .add-form input[type="number"] {
 	border:1px solid #aaa;
 	box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
 	border-radius:2px;
 	padding-right:30px;
-	-moz-transition: padding .25s; 
-	-webkit-transition: padding .25s; 
+	-moz-transition: padding .25s;
+	-webkit-transition: padding .25s;
 	-o-transition: padding .25s;
 	transition: padding .25s;
 }
 .add-form input:focus, .add-form textarea:focus {
-	border:1px solid #555; 
-	box-shadow: 0 0 3px #aaa; 
+	border:1px solid #555;
+	box-shadow: 0 0 3px #aaa;
 }
 
 
@@ -108,8 +137,8 @@ body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", san
 	color: white;
 	margin-left:8px;
 	padding: 1px 6px;
-	z-index: 999; 
-	position: absolute; 
+	z-index: 999;
+	position: absolute;
 	display: none;
 }
 .form_hint::before {
@@ -152,38 +181,38 @@ button.submit {
 }
 
 input[name=field] + label{
-  display: inline-block;
-  vertical-align: top;
-  width: 20px;
-  height: 20px;
-  border: 1px solid #555;
+	display: inline-block;
+	vertical-align: top;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #555;
 }
 input[name=field]:checked + label{
-  background: green;
+	background: green;
 }
 #saveForm{
-  pointer-events: none;
-  background: #ccc;
-  color: #888;
+	pointer-events: none;
+	background: #ccc;
+	color: #888;
 }
 input[name=field]:checked + label ~ #saveForm{
-  pointer-events: auto;
-  background: green;
-  color: #fff;
+	pointer-events: auto;
+	background: green;
+	color: #fff;
 }
 
 
 input.submit {
-  color: white;
-  font-weight: 700;
-  text-decoration: none;
-  padding: .5em 2em;
-  outline: none;
-  border: 2px solid;
-  border-radius: 1px;
-  transition: 0.2s;
-  background:#326332;
-  margin-top:20px;
+	color: white;
+	font-weight: 700;
+	text-decoration: none;
+	padding: .5em 2em;
+	outline: none;
+	border: 2px solid;
+	border-radius: 1px;
+	transition: 0.2s;
+	background:#326332;
+	margin-top:20px;
 }
 
 .submit,.clear, #add, #back{display:none;}

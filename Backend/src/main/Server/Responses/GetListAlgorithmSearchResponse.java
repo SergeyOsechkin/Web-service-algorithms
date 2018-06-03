@@ -1,9 +1,9 @@
 package Server.Responses;
 
+import Server.controller.AlgorithmControlSystem.AlgorithmListSearch;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,44 +12,18 @@ import java.util.List;
  */
 public class GetListAlgorithmSearchResponse implements IResponse{
 
-    class Algorithm{
-        @Getter
-        @Setter
-        String owner;
-        @Getter
-        @Setter
-        String namealg;
-        @Getter
-        @Setter
-        String description;
-        @Getter
-        @Setter
-        int cost;
-        @Getter
-        @Setter
-        String language;
-
-        public Algorithm(String own, String alg, String desc, int c, String lang) {
-            owner = own;
-            namealg = alg;
-            description = desc;
-            cost = c;
-            language = lang;
-        }
-    }
-
-    @Getter
     @Setter
-    List<Algorithm> algorithms;
+    @Getter
+    public List<AlgorithmListSearch> algorithms;
 
     public GetListAlgorithmSearchResponse()
     {
         algorithms = new ArrayList();
     }
 
-    public void Add(String owner, String namealg, String description, int cost, String language)
+    public void Add(String namealg)
     {
-        algorithms.add(new Algorithm(owner,namealg,description,cost,language));
+        algorithms.add(new AlgorithmListSearch(namealg));
     }
 
 }

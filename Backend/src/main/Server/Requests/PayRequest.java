@@ -10,7 +10,4 @@ public class PayRequest implements IRequest{
     @Getter
     @Setter
     public String login;
-    @Getter
-    @Setter
-    public int money;
 }

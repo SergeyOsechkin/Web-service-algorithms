@@ -19,7 +19,7 @@ public class Payment {
             headers = {"Content-type=application/json"})
     @ResponseBody
     public PayResponse Pay(@RequestBody PayRequest request) {
+
         return (PayResponse) data.run(request);
     }
-
 }

@@ -1,6 +1,6 @@
 function login(){
-	var login=$('#log').val();;
-	var pas=$('#pas').val();;
+	var login=$('#log').val();
+	var pas=$('#pas').val();
 	var params = {
 		"login":login,
 		"password":pas
@@ -47,10 +47,8 @@ function checkParams() {
 				});
 		}
 		$('#back').css('display', 'inline-block');
-		
 		return;
 	}
-
 	$('.submit').css('display', 'none');
 		
 	return;
@@ -135,7 +133,7 @@ function authorization(){
 function AddAlgorithm(){ 
  var name = $('#nameAlg').val();
  var description = $('#descriptionAlg').val();
- var price = $('#priceAlg').val();
+ var price = $('#priceAjg').val();
  var test = $('#testAlg').val();
  var code = $('#codeAlg').val();
  
@@ -155,9 +153,9 @@ function AddAlgorithm(){
  
  var resp = POST("http://localhost:9000/AddAlgorithm",params);
  if (resp != null){
-  alert("Yorк algoritm added");
+  alert("Your algorithm added");
  } else {
-  alert('Your name algoritm is exist');
+  alert('Algorithm with such name already exists')
  }
  $('#add').css('display', 'none');
 }
@@ -180,4 +178,67 @@ function myfunc(namealg) {
 	$('#langAlg').val(languageAlgoritm);
 	$('#codeAlg').val(source);
 	$('#testAlg').val(test);
+}
+
+function GetListSearch() {
+	var search = $('#search').val();
+	 var params = {
+	  "search": search.toString(), 
+	  "login": localStorage.getItem("login")
+	};
+	$('#listAl').empty();
+	var resp = POST("http://localhost:9000/GetListAlgorithmSearch",params)
+	var nameAlgoritm;
+	if (resp != null){
+	 for(var i=0; i<resp.algorithms.length;i++){
+	  nameAlgoritm = resp.algorithms[i].namealg; 
+	   $('#listAl').append('<input value="'+nameAlgoritm+'" type="button" id="'+nameAlgoritm+'" onclick ="GetSearch(this.id)"/><br>');
+	 }
+	}	
+}
+
+function GetSearch(namealg) {
+	 var params = {
+	  "namealg": namealg
+	};
+	
+	var resp = POST("http://localhost:9000/GetAlgorithmSearch",params),
+		costAlgoritm = resp.algorithm.cost,
+		descriptionAlgoritm = resp.algorithm.description,
+		languageAlgoritm = resp.algorithm.language,	
+		source = resp.algorithm.sourcefile,
+		test = resp.algorithm.testfile;
+		NameAlg = resp.algorithm.namealg;
+		ownerAlg = resp.algorithm.owner;
+	$('#costAlg').val(costAlgoritm);
+	$('#descrAlg').val(descriptionAlgoritm);
+	$('#langAlg').val(languageAlgoritm);
+	$('#codeAlg').val(source);
+	$('#testAlg').val(test);
+	$('#NameAlg').val(NameAlg);
+	$('#ownerAlg').val(ownerAlg);
+}
+
+function Buy() {
+	 var owner = $('#ownerAlg').val();
+	 var namealg = $('#NameAlg').val();
+	 var cost = $('#costAlg').val();
+	 var money = $('#money').val();
+	 var params = {
+	  "login": localStorage.getItem("login"),
+	  "owner": owner,
+	  "namealg":namealg,
+	  "cost":cost,
+	  "money":money
+	};
+	if (cost > money){
+		alert('Недостаточн}о денег');
+		return;}
+	
+	var resp = POST("http://localhost:9000/BuyAlgorithm",params)
+	if(resp != null){
+		$('#money').val(resp.money);
+	alert('Algorithm added')}
+	else{
+	alert('Algorithm dont added')}
 }

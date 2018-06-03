@@ -1,10 +1,12 @@
 package Server.Responses;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Getter;
 import lombok.Setter;
 
 public class GetAlgorithmSearchResponse implements IResponse {
-    class Algorithm {
+    @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+    public class Algorithm {
         @Getter
         @Setter
         String owner;
@@ -40,7 +42,7 @@ public class GetAlgorithmSearchResponse implements IResponse {
 
     @Getter
     @Setter
-    Algorithm algorithm;
+    public Algorithm algorithm;
 
     public GetAlgorithmSearchResponse(String owner, String alg, String desc, int cost, String lang,String source,String test)
     {

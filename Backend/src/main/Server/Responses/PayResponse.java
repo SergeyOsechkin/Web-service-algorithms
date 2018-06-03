@@ -9,10 +9,10 @@ import lombok.Setter;
 public class PayResponse implements IResponse{
     @Setter
     @Getter
-    public String answer;
+    public int money;
 
-    public PayResponse(String ans)
+    public PayResponse(int ans)
     {
-        answer = ans;
+        money = ans;
     }
 }

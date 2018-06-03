@@ -12,18 +12,6 @@ public class BuyAlgorithmRequest implements IRequest{
     public String login;
     @Getter
     @Setter
-    public String description;
-    @Getter
-    @Setter
-    public String language;
-    @Getter
-    @Setter
-    public String sourceFile;
-    @Getter
-    @Setter
-    public String testFile;
-    @Getter
-    @Setter
     public String owner;
     @Getter
     @Setter

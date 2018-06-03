@@ -43,6 +43,8 @@ public class DataAccess implements IDataAccess {
             return execute((GetAlgorithmSearchRequest)request);
         else if (request instanceof PayRequest)
             return execute((PayRequest)request);
+        else if (request instanceof BuyAlgorithmRequest)
+            return execute((BuyAlgorithmRequest)request);
         else
             return null;
     }
@@ -50,9 +52,9 @@ public class DataAccess implements IDataAccess {
     private RegistrationResponse execute (RegistrationRequest r){
         String query = String.format("INSERT INTO public.\"userspace\"(" +
                 "\"firstname\", \"secondname\", " +
-                "\"middlename\", \"login\", \"password\")" +
-                "VALUES('%s','%s','%s','%s','%s')",
-                    r.firstname,r.secondname,r.middlename,r.login,r.password);
+                "\"middlename\", \"login\", \"password\", money)" +
+                "VALUES('%s','%s','%s','%s','%s',%d)",
+                    r.firstname,r.secondname,r.middlename,r.login,r.password,100);
         try {
             update(query);
         } catch (SQLException e) {
@@ -106,17 +108,22 @@ public class DataAccess implements IDataAccess {
         if (r.cost > r.money)
             return null;
         response.money = response.money - r.cost;
-        String query = String.format("INSERT INTO public.\"algorithm\"(" +
-                        "\"owner\", \"namealg\", \"cost\"," +
-                        "\"description\", \"language\", \"sourceFile\", \"testFile\")" +
-                        "VALUES('%s','%s',%d,'%s','%s','%s','%s')",
-                r.login,r.namealg,0,r.description,r.language,r.sourceFile,r.testFile);
+        String query = String.format("INSERT INTO public.algorithm(\n" +
+                        "\towner, namealg, description, language, sourcefile, testfile, cost)\n" +
+                        "\tSelect '%s', namealg, description, language, sourcefile, testfile, cost\n" +
+                        "\tfrom public.algorithm\n" +
+                        "\twhere owner ='%s' and namealg = '%s'",
+                r.login,r.owner,r.namealg);
         String query2 = String.format("UPDATE public.\"userspace\"" +
                                         "SET money = %d" +
-                                        "WHERE login = '#s'",response.money,r.login);
+                                        "WHERE login = '%s'",response.money,r.login);
+        String query3 = String.format("UPDATE public.\"userspace\"" +
+                "SET money = money + %d" +
+                "WHERE login = '%s'",r.cost,r.owner);
         try {
             update(query);
             update(query2);
+            update(query3);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -126,19 +133,15 @@ public class DataAccess implements IDataAccess {
 
     private GetListAlgorithmSearchResponse execute (GetListAlgorithmSearchRequest r)
     {
-        String query = String.format("select * from public.\"algorithm\"" +
-                                    "WHERE \"namealg\" like '%" + r.search + "%' and \"owner\" != '" + r.login + "';");
+        String query = "select * from public.\"algorithm\"" +
+                                    "WHERE \"namealg\" like '%" + r.search + "%' and \"owner\" != '" + r.login + "';";
         GetListAlgorithmSearchResponse response = new GetListAlgorithmSearchResponse();
         try {
             ResultSet res = select(query);
             while(res.next())
             {
-                String own = res.getString("owner");
                 String namealg = res.getString("namealg");
-                String description = res.getString("description");
-                int cost = res.getInt("cost");
-                String language = res.getString("language");
-                response.Add(own,namealg,description,cost,language);
+                response.Add(namealg);
             }
             res.getStatement().close();
             res.close();
@@ -152,11 +155,11 @@ public class DataAccess implements IDataAccess {
     private GetAlgorithmSearchResponse execute (GetAlgorithmSearchRequest r)
     {
         String query = String.format("select * from public.\"algorithm\"" +
-                "WHERE \"namealg\" = '" + r.namealg + "'and \"owner\" = '" + r.owner + "';");
+                "WHERE \"namealg\" = '" + r.namealg+"'");
         GetAlgorithmSearchResponse response = null;
         try {
             ResultSet res = select(query);
-            res.next();
+            if(res.next()){
             String own = res.getString("owner");
             String namealg = res.getString("namealg");
             String description = res.getString("description");
@@ -168,7 +171,7 @@ public class DataAccess implements IDataAccess {
             String test = res.getString("testfile");
             response = new GetAlgorithmSearchResponse(
                     own,namealg,description,cost,language,source,test
-            );
+            );}
             res.getStatement().close();
             res.close();
         } catch (SQLException e) {
@@ -229,15 +232,18 @@ public class DataAccess implements IDataAccess {
 
     public PayResponse execute (PayRequest r)
     {
-        String query = String.format("UPDATE public.\"userspace\"" +
-                "SET money = %s" +
-                "WHERE \"login\" = '%s'",r.money,r.login);
-        PayResponse response = new PayResponse("Error");
+        String query = String.format("Select * from public.\"userspace\"" +
+                "WHERE \"login\" = '%s'",r.login);
+        PayResponse response = null;
         try {
-            update(query);
-            response.answer = "OK";
+            ResultSet res = select(query);
+            if(res.next())
+                response = new PayResponse(res.getInt("money")) ;
+            res.getStatement().close();
+            res.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
         return response;
     }

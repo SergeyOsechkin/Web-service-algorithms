@@ -11,11 +11,12 @@
 <div class="head-top text-font">
     <div class="left-col">
         Web service algorithms
+		<input type="button" id="money" disabled>
     </div>
     <div class="right-col">
         <ul class="menu">
+			<li><p class="fon-color"><a href="hi.html">Profile</a></p></li>
             <li><p class="fon-color"><a href="add.html">Add Algorithm</a></p></li>
-			<li><p class="fon-color"><a href="search.html">Search</a></p></li>
             <li><p class="hover-color"><a href="index.html">Exit</a></p></li>
         </ul>
     </div>
@@ -26,12 +27,25 @@
 		<div class="my-algoritm-content">		
 			<div class="my-algoritm-content-left">
 				<div class="my-algoritm-content-left-title title">List of algorithms</div>
-				<div id="listAlgoritm"class="my-algoritm-content-left-content conten-block"></div>
+				<div id="listAlgoritm"class="my-algoritm-content-left-content conten-block"></div><br>
+				<form id="lg">
+				<input type="text" placeholder="search" name="search" id="search" style="background-color:#70deea">
+				<input type="button" value="search" onclick="GetListSearch()" class="search">
+				</form>
+				<div id="listAl" class="listAl"></div>
 			</div>
 			<div class="my-algoritm-content-right"> 
 				<div class="my-algoritm-content-right-title title">Information</div>
 				<div id="informationAlgoritm" class="my-algoritm-content-right-content conten-block"></div>					
 				<ul id="informationAlgoritm1">
+					<li>
+						<label class="title-label" for="name">Owner:</label>
+						<textarea type="text" id="ownerAlg" disabled></textarea>
+					</li>
+					<li>
+						<label class="title-label" for="name">NameAlgorithm:</label>
+						<textarea type="text" id="NameAlg" disabled></textarea>
+					</li>
 					<li>
 						<label class="title-label" for="name">Cost:</label>
 						<textarea type="text" id="costAlg" disabled></textarea>
@@ -53,6 +67,7 @@
 						<textarea id="testAlg"cols="40" rows="3" disabled></textarea>
 					</li>					
 				</ul>
+				<input type="button" value="Buy" onclick="Buy()" class="Buy"> 
 			</div>
 		</div>
 	</div>
@@ -60,16 +75,10 @@
 </div>
 <script>
 var params = {
-  "login":localStorage.getItem("login")
-  };
-var resp = POST("http://localhost:9000/GetListAlgorithmUser",params);
-var nameAlgoritm;
-if (resp != null){
- for(var i=0; i<resp.algorithms.length;i++){
-  nameAlgoritm = resp.algorithms[i].namealg; 
-   $('#listAlgoritm').after('<input value="'+nameAlgoritm+'" type="button" id="'+nameAlgoritm+'" onclick ="myfunc(this.id)"/><br>');
- }
-}	
+	  "login": localStorage.getItem("login")
+	};
+	var resp = POST("http://localhost:9000/Pay",params)
+	$('#money').val(resp.money);
 </script>
 </body>
 </html>
